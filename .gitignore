@@ -1,0 +1,38 @@
+# 依赖目录
+node_modules/
+
+# 构建产物（可由 npm run build / electron-builder 重新生成）
+dist/
+release/
+
+# 说明：build/ 目录在本项目中存放 electron-builder 引用的源图标资源
+# （build/icon.png、build/trayTemplate*.png），被 package.json > build.mac.icon
+# 与 files 字段直接引用，属于源代码，不列入忽略。
+
+# Qoder IDE 会话与分析报告缓存
+.qoder/
+
+# macOS 系统噪声
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# 日志与临时文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+
+# 常见编辑器本地状态（如需共享请显式移除对应行）
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 环境变量与本地密钥
+.env
+.env.local
+.env.*.local
