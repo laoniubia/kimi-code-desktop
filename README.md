@@ -135,14 +135,27 @@ sequenceDiagram
 
 ## 🚀 快速启动 (Quick Start)
 
-### 环境依赖准备
+### 方式 0：直接下载预编译安装包（最简便 · 推荐）
+
+前往 **[GitHub Releases 最新发布页](https://github.com/laoniubia/kimi-code-desktop/releases/latest)** 直接下载编译好的 macOS 原生安装镜像：
+* 📥 **`Kimi Code-1.0.0-arm64.dmg`**：Apple Silicon (M1/M2/M3/M4) 原生安装镜像，双击拖入「应用程序」文件夹即装即用。
+* 📦 **`Kimi-Code-1.0.0-mac-arm64.zip`**：便携免安装压缩包，解压即可运行。
+
+> **提示**：首次打开若遇 macOS 安全提示“无法验证开发者”，在终端中执行一行命令即可消除隔离标记：
+> ```bash
+> xattr -cr "/Applications/Kimi Code.app"
+> ```
+
+---
+
+### 环境依赖准备 (源码运行/二次开发)
 * **操作系统**：macOS 12.0+ (支持 Apple Silicon arm64 与 Intel x64)
 * **Node.js**：>= 20.0.0 或 **Bun** >= 1.4.0
 * **Kimi Code 核心**：本地已安装或全局 link 的 Kimi Code CLI
 
 ---
 
-### 方式 1：双击一键运行（推荐）
+### 方式 1：双击一键运行 (从源码)
 
 项目根目录内置了全自动环境感知启动脚本：
 

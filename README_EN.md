@@ -135,14 +135,27 @@ sequenceDiagram
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Method 0: Download Pre-built Release (Easiest · Recommended)
+
+Visit the **[GitHub Releases Latest Page](https://github.com/laoniubia/kimi-code-desktop/releases/latest)** to download ready-to-use macOS binaries:
+* 📥 **`Kimi Code-1.0.0-arm64.dmg`**: Native macOS installer for Apple Silicon (M1/M2/M3/M4). Drag and drop into `/Applications`.
+* 📦 **`Kimi-Code-1.0.0-mac-arm64.zip`**: Portable archive. Extract and double-click to launch.
+
+> **Note**: If macOS Gatekeeper alerts "App cannot be opened because developer cannot be verified", run this command in terminal to clear the quarantine flag:
+> ```bash
+> xattr -cr "/Applications/Kimi Code.app"
+> ```
+
+---
+
+### Prerequisites (Source Run / Development)
 * **Operating System**: macOS 12.0+ (Universal: Apple Silicon arm64 & Intel x64)
 * **Node.js**: >= 20.0.0 or **Bun** >= 1.4.0
 * **Kimi Code Core**: Globally installed (`npm i -g @moonshot-ai/kimi-code`) or built from source
 
 ---
 
-### Method 1: One-Click Launch Script (Recommended)
+### Method 1: One-Click Launch Script (From Source)
 
 A smart environment-aware launch script is included in the project root:
 
