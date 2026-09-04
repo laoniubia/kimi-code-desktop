@@ -30,6 +30,17 @@ const VIRTUAL_INTERFACE_PATTERNS = [
   /^docker/i,
   /^vbox/i,
   /^vmnet/i,
+  /vethernet/i,
+  /hyper-v/i,
+  /wsl/i,
+  /virtual/i,
+  /vmware/i,
+  /vbox/i,
+  /tailscale/i,
+  /zerotier/i,
+  /tap/i,
+  /tun/i,
+  /loopback/i,
 ];
 
 /**
@@ -68,6 +79,16 @@ export function getAvailableLanInterfaces(): LanInterface[] {
 
         // macOS 默认 Wi-Fi 通常为 en0
         if (name === 'en0') priority += 5;
+
+        // Windows 常见物理网卡名称加权优先
+        if (
+          /wlan/i.test(name) ||
+          /wi-fi/i.test(name) ||
+          /以太网/i.test(name) ||
+          /ethernet/i.test(name)
+        ) {
+          priority += 5;
+        }
 
         list.push({ name, ip, priority });
       }

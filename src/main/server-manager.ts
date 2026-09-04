@@ -122,10 +122,16 @@ export class ServerManager {
       const logFile = join(logDir, 'desktop-daemon.log');
       const outFd = openSync(logFile, 'a');
 
+      const isWin = process.platform === 'win32';
+      const isBatchOrCmd = isWin && (execCmd.toLowerCase().endsWith('.cmd') || execCmd.toLowerCase().endsWith('.bat'));
+
       // 核心工程实现：使用 detached: true 和 stdio 文件流，彻底断开与终端 TTY 的关联！
+      // windowsHide: true 确保 Windows 下不会弹出 CMD 黑框
       const child = spawn(execCmd, execArgs, {
         cwd: homedir(),
         detached: true,
+        windowsHide: true,
+        shell: isBatchOrCmd ? true : false,
         stdio: ['ignore', outFd, outFd],
         env: {
           ...process.env,

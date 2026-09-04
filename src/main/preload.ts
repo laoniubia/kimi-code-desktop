@@ -185,7 +185,7 @@ window.addEventListener('DOMContentLoaded', () => {
       btn.id = 'desktop-qr-trigger';
       btn.className = 'btn-desktop-qr';
       btn.type = 'button';
-      btn.title = '手机扫码控制 (快捷键 Cmd+M)';
+      btn.title = '手机扫码控制 (快捷键 Cmd+M / Ctrl+M)';
       btn.innerHTML = `
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>

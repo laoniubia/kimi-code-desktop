@@ -185,26 +185,52 @@ function saveWindowState() {
 }
 
 /**
- * 创建和更新 macOS 顶部状态栏托盘（System Tray）
+ * 创建和更新系统状态栏/通知区托盘（System Tray）
  */
 function setupTray() {
   if (tray) return;
 
-  // 寻获托盘图标 (优先使用 assets 中的 template 图标)
-  let iconPath = join(__dirname, '../../assets/trayTemplate.png');
-  if (!existsSync(iconPath)) {
-    iconPath = join(__dirname, '../assets/trayTemplate.png');
-  }
-  if (!existsSync(iconPath)) {
-    iconPath = join(process.cwd(), 'assets/trayTemplate.png');
+  const isWin = process.platform === 'win32';
+  let iconPath = '';
+
+  if (isWin) {
+    // Windows 下优先使用彩色应用图标或专用 tray 图标
+    const winCandidates = [
+      join(__dirname, '../../build/icon.png'),
+      join(__dirname, '../build/icon.png'),
+      join(process.cwd(), 'build/icon.png'),
+      join(__dirname, '../../assets/trayTemplate.png'),
+      join(process.cwd(), 'assets/trayTemplate.png'),
+    ];
+    for (const cand of winCandidates) {
+      if (existsSync(cand)) {
+        iconPath = cand;
+        break;
+      }
+    }
+  } else {
+    // macOS 优先使用 template 图标
+    const macCandidates = [
+      join(__dirname, '../../assets/trayTemplate.png'),
+      join(__dirname, '../assets/trayTemplate.png'),
+      join(process.cwd(), 'assets/trayTemplate.png'),
+    ];
+    for (const cand of macCandidates) {
+      if (existsSync(cand)) {
+        iconPath = cand;
+        break;
+      }
+    }
   }
 
-  let icon = nativeImage.createFromPath(iconPath);
+  let icon = iconPath ? nativeImage.createFromPath(iconPath) : nativeImage.createEmpty();
   if (icon.isEmpty()) {
     // 保底：生成一个 16x16 的内置单色图标
     icon = nativeImage.createFromNamedImage('NSActionTemplate', [16, 16]);
   }
-  icon.setTemplateImage(true); // macOS 自动根据系统深浅色切换黑白显示
+  if (!isWin) {
+    icon.setTemplateImage(true); // macOS 自动根据系统深浅色切换黑白显示
+  }
 
   tray = new Tray(icon);
   tray.setToolTip('Kimi Code - 手机协同就绪');
@@ -433,6 +459,7 @@ function setupApplicationMenu() {
 
 async function createWindow() {
   const isMac = process.platform === 'darwin';
+  const isWin = process.platform === 'win32';
   const savedState = loadWindowState();
 
   mainWindow = new BrowserWindow({
@@ -445,7 +472,14 @@ async function createWindow() {
     title: 'Kimi Code',
     show: false,
     backgroundColor: '#09090b',
-    titleBarStyle: isMac ? 'hiddenInset' : 'default',
+    titleBarStyle: isMac ? 'hiddenInset' : (isWin ? 'hidden' : 'default'),
+    titleBarOverlay: isWin
+      ? {
+          color: '#09090b',
+          symbolColor: '#a1a1aa',
+          height: 35,
+        }
+      : undefined,
     trafficLightPosition: isMac ? { x: 16, y: 16 } : undefined,
     webPreferences: {
       preload: join(__dirname, 'preload.cjs'),
